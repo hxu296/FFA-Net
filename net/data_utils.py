@@ -49,7 +49,6 @@ class RESIDE_Dataset(data.Dataset):
                 index=random.randint(0,1000)
                 haze=Image.open(self.haze_imgs[index])
         img=self.haze_imgs[index]
-        print(img)
         clear_name=os.path.basename(img)
         clear=Image.open(os.path.join(self.clear_dir,clear_name))
         clear=tfs.CenterCrop(haze.size[::-1])(clear)
