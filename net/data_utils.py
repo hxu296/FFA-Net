@@ -46,11 +46,11 @@ class RESIDE_Dataset(data.Dataset):
         haze=Image.open(self.haze_imgs[index])
         if isinstance(self.size,int):
             while haze.size[0]<self.size or haze.size[1]<self.size :
-                index=random.randint(0,20000)
+                index=random.randint(0,1000)
                 haze=Image.open(self.haze_imgs[index])
         img=self.haze_imgs[index]
-        id=img.split('/')[-1].split('_')[0]
-        clear_name=id+self.format
+        print(img)
+        clear_name=os.path.basename(img)
         clear=Image.open(os.path.join(self.clear_dir,clear_name))
         clear=tfs.CenterCrop(haze.size[::-1])(clear)
         if not isinstance(self.size,str):
@@ -78,13 +78,13 @@ class RESIDE_Dataset(data.Dataset):
 import os
 pwd=os.getcwd()
 print(pwd)
-path='/home/zhilin007/VS/FFA-Net/data'#path to your 'data' folder
+path='../data'#path to your 'data' folder
 
-ITS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/ITS',train=True,size=crop_size),batch_size=BS,shuffle=True)
-ITS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/SOTS/indoor',train=False,size='whole img'),batch_size=1,shuffle=False)
+#ITS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/ITS',train=True,size=crop_size),batch_size=BS,shuffle=True)
+#ITS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/SOTS/indoor',train=False,size='whole img'),batch_size=1,shuffle=False)
 
-OTS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/OTS',train=True,format='.jpg'),batch_size=BS,shuffle=True)
-OTS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/SOTS/outdoor',train=False,size='whole img',format='.png'),batch_size=1,shuffle=False)
+OTS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/OTS',train=True,format='.png'),batch_size=BS,shuffle=True)
+OTS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/OTS',train=False,size='whole img',format='.png'),batch_size=1,shuffle=False)
 
 if __name__ == "__main__":
     pass

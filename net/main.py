@@ -21,8 +21,6 @@ models_={
 	'ffa':FFA(gps=opt.gps,blocks=opt.blocks),
 }
 loaders_={
-	'its_train':ITS_train_loader,
-	'its_test':ITS_test_loader,
 	'ots_train':OTS_train_loader,
 	'ots_test':OTS_test_loader
 }

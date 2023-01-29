@@ -67,7 +67,7 @@ class FFA(nn.Module):
         self.dim=64
         kernel_size=3
         pre_process = [conv(3, self.dim, kernel_size)]
-        assert self.gps==3
+        #assert self.gps==3
         self.g1= Group(conv, self.dim, kernel_size,blocks=blocks)
         self.g2= Group(conv, self.dim, kernel_size,blocks=blocks)
         self.g3= Group(conv, self.dim, kernel_size,blocks=blocks)
