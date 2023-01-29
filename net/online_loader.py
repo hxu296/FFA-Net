@@ -94,7 +94,6 @@ class TrainDataUnreal(data.Dataset):
 
         #### read in the depth map & clean images
         gt_name,gt_depth_name = self.image_depth_names[index]
-        print('DEBUG:', gt_name, gt_depth_name)
         
         gt_depth = cv2.imread(gt_depth_name,0)
         target_img = cv2.imread(gt_name) # clear imgs
@@ -123,9 +122,6 @@ class TrainDataUnreal(data.Dataset):
         if list(haze.shape)[0] is not 3 or list(gt.shape)[0] is not 3: 
             #print(gt_name)
             raise Exception('Bad image channel: {}'.format(gt_name))
-        
-        print(type(haze), type(gt))
-        print(haze.shape, gt.shape)
 
         return haze, gt
     
