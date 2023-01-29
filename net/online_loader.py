@@ -39,7 +39,7 @@ class TrainDataUnreal(data.Dataset):
 
         ## set up resize if styled image has been resized
 
-        self.crop_size = crop_size
+        self.crop_size = [crop_size, crop_size]
 
         self.size_w = crop_size[0]
         self.size_h = crop_size[1]
@@ -96,6 +96,7 @@ class TrainDataUnreal(data.Dataset):
 
         #### read in the depth map & clean images
         gt_name,gt_depth_name = self.image_depth_names[index]
+        
         gt_depth = cv2.imread(gt_depth_name,0)
         target_img = cv2.imread(os.path.join(self.root_dir, gt_name)) # clear imgs
 
@@ -111,17 +112,22 @@ class TrainDataUnreal(data.Dataset):
         ### convert & do resizing
         haze = source_img * 255.0 ## this part may have problem
         haze = self.cv2PIL(haze)
-        haze = haze.resize((self.size_w, self.size_h))
+        haze = tfs.CenterCrop(haze, self.crop_size)
 
         clear = target_img * 255.0
-        clear = clear.resize((self.size_w, self.size_h))
+        clear = self.cv2PIL(clear)
+        clear = tfs.CenterCrop(clear, self.crop_size)
 
-        haze,gt=self.augData(haze.convert("RGB") ,clear.convert("RGB") )
+        haze, gt =self.augData(haze.convert("RGB") ,clear.convert("RGB") )
 
         # --- Check the channel is 3 or not --- # 
         if list(haze.shape)[0] is not 3 or list(gt.shape)[0] is not 3: 
             #print(gt_name)
             raise Exception('Bad image channel: {}'.format(gt_name))
+        
+        print(type(haze), type(gt))
+        print(haze.shape, gt.shape)
+        
         return haze, gt
     
 
