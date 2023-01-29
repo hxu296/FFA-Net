@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 from torchvision.utils import make_grid
 from metrics import *
 from option import opt
-from .online_loader import TrainDataUnreal
+from online_loader import TrainDataUnreal
 
 BS=opt.bs
 print(BS)
