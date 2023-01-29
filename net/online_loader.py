@@ -14,7 +14,7 @@ os.environ["OPENCV_IO_ENABLE_OPENEXR"]="1"
 
 
 class TrainDataUnreal(data.Dataset):
-    def __init__(self, dataset_name, crop_size, train_data_dir,):
+    def __init__(self, crop_size, train_data_dir):
         super().__init__()             
         ### folder structure related
         self.root_dir = train_data_dir # keep this for train/val/test split

@@ -13,6 +13,8 @@ from matplotlib import pyplot as plt
 from torchvision.utils import make_grid
 from metrics import *
 from option import opt
+from .online_loader import TrainDataUnreal
+
 BS=opt.bs
 print(BS)
 crop_size='whole_img'
@@ -82,7 +84,7 @@ path='../data'#path to your 'data' folder
 #ITS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/ITS',train=True,size=crop_size),batch_size=BS,shuffle=True)
 #ITS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/SOTS/indoor',train=False,size='whole img'),batch_size=1,shuffle=False)
 
-OTS_train_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/OTS',train=True,format='.png'),batch_size=BS,shuffle=True)
+OTS_train_loader=TrainDataUnreal(crop_size=opt.crop_size, train_data_dir=path+'/DLSU/')
 OTS_test_loader=DataLoader(dataset=RESIDE_Dataset(path+'/RESIDE/OTS',train=False,size='whole img',format='.png'),batch_size=1,shuffle=False)
 
 if __name__ == "__main__":
