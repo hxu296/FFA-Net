@@ -14,19 +14,15 @@ os.environ["OPENCV_IO_ENABLE_OPENEXR"]="1"
 
 
 class TrainDataUnreal(data.Dataset):
-    def __init__(self,dataset_name, crop_size, train_data_dir,):
+    def __init__(self, dataset_name, crop_size, train_data_dir,):
         super().__init__()             
         ### folder structure related
-        self.root_dir = train_data_dir# keep this for train/val/test split
+        self.root_dir = train_data_dir # keep this for train/val/test split
         self.img_names = []
         self.image_depth_names = []
         foler0_names = os.listdir(self.root_dir)
 
         for foler0_name in foler0_names:
-            if len(self.focal_length) != 0:
-              foler0_name.split('_')[-1] 
-              if foler0_name.split('_')[-1] not in self.focal_length:
-                continue
             foler0_name_path = os.path.join(self.root_dir,foler0_name)
             print('foler0_name_path',foler0_name_path)
             img_names = sorted(os.listdir(os.path.join(foler0_name_path,'ColorImage'))) # name of all images 
@@ -127,7 +123,7 @@ class TrainDataUnreal(data.Dataset):
         
         print(type(haze), type(gt))
         print(haze.shape, gt.shape)
-        
+
         return haze, gt
     
 
