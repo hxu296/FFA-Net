@@ -115,7 +115,6 @@ class TrainDataUnreal(data.Dataset):
 
         clear = target_img * 255.0
         clear = clear.resize((self.size_w, self.size_h))
-        clear = clear.resize((self.size_w, self.size_h)) 
 
         haze,gt=self.augData(haze.convert("RGB") ,clear.convert("RGB") )
 
