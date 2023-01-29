@@ -150,5 +150,5 @@ class TrainDataUnreal(data.Dataset):
         return res 
 
     def __len__(self):
-        return len(self.haze_names)
+        return len(self.image_depth_names)
 
