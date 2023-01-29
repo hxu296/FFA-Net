@@ -37,8 +37,8 @@ class TrainDataUnreal(data.Dataset):
 
         self.crop_size = [crop_size, crop_size]
 
-        self.size_w = crop_size[0]
-        self.size_h = crop_size[1]
+        self.size_w = crop_size
+        self.size_h = crop_size
 
     def cv2PIL(self,img):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
