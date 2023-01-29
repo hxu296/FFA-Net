@@ -46,10 +46,6 @@ class RESIDE_Dataset(data.Dataset):
         self.clear_dir=os.path.join(path,'clear')
     def __getitem__(self, index):
         haze=Image.open(self.haze_imgs[index])
-        if isinstance(self.size,int):
-            while haze.size[0]<self.size or haze.size[1]<self.size :
-                index=random.randint(0,1000)
-                haze=Image.open(self.haze_imgs[index])
         img=self.haze_imgs[index]
         clear_name=os.path.basename(img)
         clear=Image.open(os.path.join(self.clear_dir,clear_name))
