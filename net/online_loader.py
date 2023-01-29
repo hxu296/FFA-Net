@@ -42,6 +42,8 @@ class TrainDataUnreal(data.Dataset):
 
     def cv2PIL(self,img):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = img * 255
+        img = img.astype(np.uint8)
         im_pil = Image.fromarray(img)
         return im_pil
 
@@ -92,27 +94,28 @@ class TrainDataUnreal(data.Dataset):
 
         #### read in the depth map & clean images
         gt_name,gt_depth_name = self.image_depth_names[index]
+        print('DEBUG:', gt_name, gt_depth_name)
         
         gt_depth = cv2.imread(gt_depth_name,0)
-        target_img = cv2.imread(os.path.join(self.root_dir, gt_name)) # clear imgs
+        target_img = cv2.imread(gt_name) # clear imgs
 
 
         ### construct hazy images
         target_img = target_img.astype('float32') / 255.0 # conver to range in (0,1) as ASM implementation assumes in that range
         gt_depth,sky_mask = self.depth_map_conversion(gt_depth)
     
-        source_dic = self.asm_haze_gen(target_img,gt_depth,sky_mask,beta0=self.beta0,beta1=self.beta1)
+        source_dic = self.asm_haze_gen(target_img,gt_depth,sky_mask)
         source_img,A,beta = source_dic['hazy_img'],source_dic['A'],source_dic['beta']
 
 
         ### convert & do resizing
         haze = source_img * 255.0 ## this part may have problem
         haze = self.cv2PIL(haze)
-        haze = tfs.CenterCrop(haze, self.crop_size)
+        haze = tfs.CenterCrop(self.crop_size)(haze)
 
         clear = target_img * 255.0
         clear = self.cv2PIL(clear)
-        clear = tfs.CenterCrop(clear, self.crop_size)
+        clear = tfs.CenterCrop(self.crop_size)(clear)
 
         haze, gt =self.augData(haze.convert("RGB") ,clear.convert("RGB") )
 
